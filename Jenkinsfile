@@ -1,21 +1,49 @@
 pipeline {
+
+  environment {
+    dockerimagename = "bravinwasike/react-app"
+    dockerImage = ""
+  }
+
   agent any
+
   stages {
-    stage('Apply Kubernetes Files') {
+
+    stage('Checkout Source') {
       steps {
-          withKubeConfig([credentialsId: 'kubeconfig']) {
-          sh 'kubectl apply -f deployment.yaml'
-          sh 'kubectl apply -f service.yaml'
+        git 'https://github.com/deathagility/aycap.git'
+      }
+    }
+
+    stage('Build image') {
+      steps{
+        script {
+          dockerImage = docker.build dockerimagename
         }
       }
+    }
+
+    stage('Pushing Image') {
+      environment {
+               registryCredential = 'dockerhub-credentials'
+           }
+      steps{
+        script {
+          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+            dockerImage.push("latest")
+          }
+        }
+      }
+    }
+
+    stage('Deploying container to Kubernetes') {
+      steps {
+        script {
+          kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
+        }
+      }
+    }
+
   }
-}
-post {
-    success {
-      slackSend(message: "Pipeline is successfully completed.")
-    }
-    failure {
-      slackSend(message: "Pipeline failed. Please check the logs.")
-    }
-}
+
 }
