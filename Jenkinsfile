@@ -1,12 +1,16 @@
 pipeline {
     agent any
-   
-  stages {
+
+    environment {
+        dockerImage = ''
+    }
+
+    stages {
 
         stage('Deployment') {
             steps {
-                sh 'kubectl apply -f deployment.yml';
+                sh 'kubectl apply -f deployment.yaml';
             }
         }
-  }
+    }
 }
