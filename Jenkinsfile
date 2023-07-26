@@ -1,29 +1,22 @@
 pipeline {
-
-  environment {
-    dockerimagename = "deathagility/aycap:v1"
-    dockerImage = ""
-  }
-
   agent any
-
   stages {
 
-    stage('Checkout Source') {
+    stage('Apply Kubernetes Files') {
       steps {
-        git 'https://github.com/deathagility/aycap.git'
-      }
-    }
-
-
-    stage('Deploying React.js container to Kubernetes') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
+          withKubeConfig([credentialsId: 'kubeconfig']) {
+          sh 'kubectl apply -f deployment.yaml'
+          sh 'kubectl apply -f service.yaml'
         }
       }
-    }
-
   }
-
+}
+post {
+    success {
+      slackSend(message: "Pipeline is successfully completed.")
+    }
+    failure {
+      slackSend(message: "Pipeline failed. Please check the logs.")
+    }
+}
 }
