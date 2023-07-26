@@ -1,22 +1,17 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: minikube
-  labels:
-    app: minikube
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: minikube
-  template:
-    metadata:
-      labels:
-        app: minikube
-    spec:
-      containers:
-      - name: minikube
-        image: deathagility/aycap:v2
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 8000
+#!/usr/bin/env groovy
+pipeline {
+    agent any
+    stages {
+
+        stage("Deploy to MINIKUBE") {
+            steps {
+                script {
+                    dir('./') {
+                        sh "kubectl apply -f deployment.yaml"
+                        sh "kubectl apply -f service.yaml"
+                    }
+                }
+            }
+        }
+    }
+}
