@@ -1,40 +1,14 @@
 pipeline {
-  environment {
-    dockerimagename = "nginx:latest"
-    dockerImage = ""
-  }
-  agent any
-  stages {
-    stage('Checkout Source') {
-      steps {
-        git 'https://github.com/deathagility/aycap.git'
-      }
-    }
-    stage('Build image') {
-      steps{
-        script {
-          dockerImage = docker.build dockerimagename
+    agent any
+
+    stages {
+
+        stage('rollout') {
+            steps {
+                sh '/usr/local/bin/kubectl apply -f deployment.yaml';
+                sh '/usr/local/bin/kubectl apply -f service.yaml';
+                sh '/usr/local/bin/kubectl apply -f ingress.yaml';
+            }
         }
-      }
     }
-    stage('Pushing Image') {
-      environment {
-               registryCredential = 'dockerhub-credentials'
-           }
-      steps{
-        script {
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("latest")
-          }
-        }
-      }
-    }
-    stage('Deploying React.js container to Kubernetes') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
-        }
-      }
-    }
-  }
 }
