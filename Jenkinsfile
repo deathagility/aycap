@@ -3,12 +3,10 @@ pipeline {
 
   stages {
 
-    stage('Deploy new image') {
+    stage('Deploy Minikube') {
       steps {
         container('kubectl') {
-          sh 'find'
           sh 'kubectl version'
-          sh '#ls / -a'
         }
       }
     }
