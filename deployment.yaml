@@ -2,34 +2,26 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: aycap-dev
+  labels:
+    app: aycap-dev
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: aycap-dev
-  replicas: 2
-  strategy:
-    rollingUpdate:
-      maxSurge: 2
-      maxUnavailable: 0
-    type: RollingUpdate
   template:
     metadata:
       labels:
         app: aycap-dev
-        env: env
-        client: web
     spec:
       containers:
-        - name: aycap-dev
-          image: deathagility/aycap:v1
-          ports:
-            - containerPort: 8000
-          env:
-            # - name: env
-            #   value: environment
-            # - name: ASPNETCORE_ENVIRONMENT
-            #   value: dev
-            - name: version
-              value: "images_tag:"
-            - name: team
-              value: "aycap"
+      - name: aycap-dev
+        image: deathagility/aycap:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+        - name: MY_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
