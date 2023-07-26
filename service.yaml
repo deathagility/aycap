@@ -6,6 +6,7 @@ spec:
   type: aycap-dev
   selector:
     app: aycap-dev
+  type: LoadBalancer
   ports:
   - protocol: TCP
     port: 8000
