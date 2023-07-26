@@ -1,17 +1,16 @@
 pipeline {
+    agent any
 
-  agent any
+    stages {
 
-  stages {
+        stage("Deploy to MINIKUBE") {
+            steps {
+                script {
+                        sh "kubectl apply -f deployment.yaml"
+                        sh "kubectl apply -f service.yaml"
 
-    stage('Deploying App to Kubernetes') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
+                }
+            }
         }
-      }
     }
-
-  }
-
 }
