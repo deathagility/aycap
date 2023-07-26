@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: minikube
-        image: deathagility/aycap:v1
+        image: deathagility/aycap:v2
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
