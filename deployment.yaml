@@ -1,17 +1,31 @@
-#!/usr/bin/env groovy
-pipeline {
-    agent any
-    stages {
-
-        stage("Deploy to MINIKUBE") {
-            steps {
-                script {
-                    dir('./') {
-                        sh "kubectl apply -f deployment.yaml"
-                        sh "kubectl apply -f service.yaml"
-                    }
-                }
-            }
-        }
-    }
-}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aycap-dev
+spec:
+  selector:
+    matchLabels:
+      app: aycap-dev
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: aycap-dev
+        env: env
+        client: web
+    spec:
+      containers:
+        - name: aycap-dev
+          image: deathagility/aycap:v2
+          ports:
+            - containerPort: 8000
+          env:
+            # - name: env
+            #   value: environment
+            # - name: ASPNETCORE_ENVIRONMENT
+            #   value: dev
