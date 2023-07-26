@@ -1,14 +1,8 @@
 pipeline {
 
-  environment {
-    dockerimagename = "deathagility/aycap:v1"
-    dockerImage = ""
-  }
-
   agent any
 
   stages {
-
     stage('Apply Kubernetes Files') {
       steps {
           withKubeConfig([credentialsId: 'kubeconfig']) {
