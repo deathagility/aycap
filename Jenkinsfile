@@ -1,16 +1,28 @@
 pipeline {
 
+  environment {
+    dockerimagename = "bravinwasike/react-app"
+    dockerImage = ""
+  }
+
   agent any
 
   stages {
-    stage('Apply Kubernetes Files') {
+
+    stage('Checkout Source') {
       steps {
-          withKubeConfig([credentialsId: 'kubeconfig']) {
-          sh 'kubectl apply -f deployment.yaml'
-          sh 'kubectl apply -f service.yaml'
+        git 'https://github.com/Bravinsimiyu/jenkins-kubernetes-deployment.git'
+      }
+    }
+
+
+    stage('Deploying React.js container to Kubernetes') {
+      steps {
+        script {
+          kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
         }
       }
-  }
+    }
 
   }
 
