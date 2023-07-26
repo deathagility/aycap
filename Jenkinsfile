@@ -9,15 +9,13 @@ pipeline {
     stages {
 
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                // Deploy the NGINX application to Kubernetes
-                script {
-                    kubeConfig = readTrusted('./kube/config') // Read your Kubernetes config from a trusted source
-
-                    sh "kubectl --kubeconfig=${kubeConfig} apply -f ./deployment.yaml -n ${KUBE_NAMESPACE}"
-                }
-            }
+    stage('Deploy new image') {
+      steps {
+        container('kubectl') {
+          sh 'find'
+          sh 'kubectl version'
+          sh '#ls / -a'
         }
+      }
     }
 }
