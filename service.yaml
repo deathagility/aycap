@@ -3,15 +3,10 @@ kind: Service
 metadata:
   name: aycap-dev
 spec:
-  ports:
-    - port: 8000
-      targetPort: 8000
-      protocol: TCP
-      name: http
-    - name: https
-      port: 443
-      protocol: TCP
-      targetPort: 443
+  type: aycap-dev
   selector:
     app: aycap-dev
-  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
