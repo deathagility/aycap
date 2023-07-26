@@ -1,7 +1,6 @@
 pipeline {
     agent any
     minikube {
-      yaml '''
     }
     
   stages {
