@@ -1,10 +1,10 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_REGISTRY = "deathagility/aycap:v2"
-        KUBE_NAMESPACE = "default"
-    }
+#    environment {
+#        DOCKER_REGISTRY = "deathagility/aycap:v2"
+#        KUBE_NAMESPACE = "default"
+#    }
 
   stages {
 
