@@ -6,8 +6,7 @@ pipeline {
         KUBE_NAMESPACE = "default"
     }
 
-    stages {
-
+  stages {
 
     stage('Deploy new image') {
       steps {
@@ -18,4 +17,5 @@ pipeline {
         }
       }
     }
+  }
 }
