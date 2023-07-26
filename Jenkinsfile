@@ -1,16 +1,12 @@
 pipeline {
     agent any
-    minikube {
-    }
-    
+   
   stages {
 
-    stage('Deploy Minikube') {
-      steps {
-        container('kubectl') {
-          sh 'kubectl version'
+        stage('Deployment') {
+            steps {
+                sh 'kubectl apply -f deployment.yml';
+            }
         }
-      }
-    }
   }
 }
