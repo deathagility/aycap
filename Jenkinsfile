@@ -1,21 +1,23 @@
 pipeline {
-  agent any
-  stages {
+    agent any
 
-    stage('Apply Kubernetes Files') {
-      steps {
-          withKubeConfig([credentialsId: 'kubeconfig']) {
-          sh 'kubectl apply -f service.yaml'
+    environment {
+        DOCKER_REGISTRY = "deathagility/aycap:v2"
+        KUBE_NAMESPACE = "default"
+    }
+
+    stages {
+
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                // Deploy the NGINX application to Kubernetes
+                script {
+                    kubeConfig = readTrusted('./kube/config') // Read your Kubernetes config from a trusted source
+
+                    sh "kubectl --kubeconfig=${kubeConfig} apply -f ./deployment.yaml -n ${KUBE_NAMESPACE}"
+                }
+            }
         }
-      }
-  }
-}
-post {
-    success {
-      slackSend(message: "Pipeline is successfully completed.")
     }
-    failure {
-      slackSend(message: "Pipeline failed. Please check the logs.")
-    }
-}
 }
