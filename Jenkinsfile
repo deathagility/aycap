@@ -1,7 +1,7 @@
 pipeline {
 
   environment {
-    dockerimagename = "bravinwasike/react-app"
+    dockerimagename = "deathagility/aycap:v1"
     dockerImage = ""
   }
 
