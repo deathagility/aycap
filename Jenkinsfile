@@ -1,6 +1,9 @@
 pipeline {
     agent any
-
+    minikube {
+      yaml '''
+    }
+    
   stages {
 
     stage('Deploy Minikube') {
