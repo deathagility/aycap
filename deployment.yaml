@@ -1,27 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aycap-dev
+  name: minikube
   labels:
-    app: aycap-dev
+    app: minikube
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: aycap-dev
+      app: minikube
   template:
     metadata:
       labels:
-        app: aycap-dev
+        app: minikube
     spec:
       containers:
-      - name: aycap-dev
+      - name: minikube
         image: deathagility/aycap:v1
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
-        env:
-        - name: MY_NODE_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.nodeName
