@@ -19,7 +19,7 @@ pipeline {
                 sh '/usr/local/bin/kubectl apply -f ingress.yaml';
             }
         }
-        stage('rollout-prod') {
+        stage('rollout-prod-green') {
             when { branch 'prod/green'}
             steps {
                 sh '/usr/local/bin/kubectl apply -f deployment.yaml';
@@ -27,7 +27,7 @@ pipeline {
                 sh '/usr/local/bin/kubectl apply -f ingress.yaml';
             }
         }
-        stage('rollout-prod') {
+        stage('rollout-prod-blue') {
             when { branch 'prod/blue'}
             steps {
                 sh '/usr/local/bin/kubectl apply -f deployment.yaml';
