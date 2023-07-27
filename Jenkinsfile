@@ -4,7 +4,7 @@ pipeline {
 
     stages {
 
-        stage('rollout-dev') {
+        stage('rollout-prod-blue') {
             steps {
                 sh '/usr/local/bin/kubectl apply -f deployment.yaml';
                 sh '/usr/local/bin/kubectl apply -f service.yaml';
