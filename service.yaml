@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: aycap-dev
+  name: aycap-prod-green
 spec:
-  type: aycap-dev
+  type: aycap-prod-green
   selector:
-    app: aycap-dev
+    app: aycap-prod-green
   type: LoadBalancer
   ports:
   - protocol: TCP
