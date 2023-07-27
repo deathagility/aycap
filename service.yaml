@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: aycap-dev
+  name: aycap-canary
 spec:
-  type: aycap-dev
+  type: aycap-canary
   selector:
-    app: aycap-dev
+    app: aycap-canary
   type: LoadBalancer
   ports:
   - protocol: TCP
