@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aycap-dev
+  name: aycap-canary
 spec:
   selector:
     matchLabels:
-      app: aycap-dev
+      app: aycap-canary
   replicas: 2
   strategy:
     rollingUpdate:
@@ -15,17 +15,17 @@ spec:
   template:
     metadata:
       labels:
-        app: aycap-dev
+        app: aycap-canary
         env: env
         client: web
     spec:
       containers:
-        - name: aycap-dev
+        - name: aycap-canary
           image: deathagility/aycap:v2
           ports:
             - containerPort: 8000
           env:
-            # - name: env
-            #   value: environment
-            # - name: ASPNETCORE_ENVIRONMENT
-            #   value: dev
+           - name: env
+             value: environment
+           - name: ASPNETCORE_ENVIRONMENT
+             value: canary
