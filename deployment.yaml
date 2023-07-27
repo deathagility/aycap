@@ -26,6 +26,6 @@ spec:
             - containerPort: 8000
           env:
             - name: env
-               value: environment
+              value: environment
             - name: ASPNETCORE_ENVIRONMENT
-               value: prod
+              value: prod
