@@ -5,13 +5,11 @@ pipeline {
     stages {
 
         stage('rollout-dev') {
-            when { branch 'main'}
             steps {
                 sh '/usr/local/bin/kubectl apply -f deployment.yaml';
                 sh '/usr/local/bin/kubectl apply -f service.yaml';
                 sh '/usr/local/bin/kubectl apply -f ingress.yaml';
             }
         }
-
     }
 }
